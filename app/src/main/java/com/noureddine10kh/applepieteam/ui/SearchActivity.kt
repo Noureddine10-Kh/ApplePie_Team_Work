@@ -16,8 +16,7 @@ class SearchActivity :  BaseActivity<ActivitySearchBinding>() {
     }
 
     override fun addCallBacks() {
-        var countryNameValue: String = binding?.editCountryName?.text.toString()
-        check(countryNameValue)
+
         binding?.deleteBut?.setOnClickListener {
          var editCountryNameValue: String = binding?.editCountryName?.text.toString()
             when( editCountryNameValue.length) {
@@ -37,9 +36,8 @@ class SearchActivity :  BaseActivity<ActivitySearchBinding>() {
         }
         /////////////////////////////////////////////////////////
        binding?.showResultBtn?.setOnClickListener {
-
-
-
+           var countryNameValue: String = binding?.editCountryName?.text.toString()
+           check(countryNameValue)
         }
     }
     // the fun using : to check if the countryName is available or not
@@ -47,7 +45,19 @@ class SearchActivity :  BaseActivity<ActivitySearchBinding>() {
         if (countryNameValue.isNotEmpty()){
             if (countryNameValue[0] !in 'Z' downTo 'A'){
                Toast.makeText(this,"READ THE NOTE AND APPLY ITS RULES",Toast.LENGTH_LONG).show()
+                binding?.editCountryName?.setText("")
+            }else if(countryNameValue[0] in 'Z' downTo 'A' && countryNameValue.length>1){
+                DataManager.countryNameList.forEach {
+                    if (countryNameValue==it){
+                         DataManager.filteredCiTiesName(countryNameValue)
+                    }else{
+                        Toast.makeText(this,"verified the country name \n and try again!!",Toast.LENGTH_LONG).show()
+                        binding?.editCountryName?.setText("")
+                    }
+                }
             }
+        }else{
+            Toast.makeText(this,"You must enter a Country Name !!",Toast.LENGTH_LONG).show()
         }
     }
 

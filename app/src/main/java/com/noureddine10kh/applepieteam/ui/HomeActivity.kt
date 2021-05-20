@@ -27,7 +27,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val parser = CsvParser()
         buffer.forEachLine {
             val currentCity = parser.parse(it)
+            val currentCountryName = currentCity.countryName
             DataManager.addCity(currentCity)
+            DataManager.addCountryName(currentCountryName)
         }
     }
 
